@@ -1,0 +1,118 @@
+﻿@model BadNews.Models.Comment
+
+@{
+    ViewData["Title"] = "Add Comment";
+}
+<head>
+    <title>Comment</title>
+    <style>
+.star-rating {
+ font-size: 0;
+ white-space: nowrap;
+ display: inline-block;
+ /* width: 250px; remove this */
+ height: 50px;
+ overflow: hidden;
+ position: relative;
+ background: url('data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDIwIDIwIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cG9seWdvbiBmaWxsPSIjREREREREIiBwb2ludHM9IjEwLDAgMTMuMDksNi41ODMgMjAsNy42MzkgMTUsMTIuNzY0IDE2LjE4LDIwIDEwLDE2LjU4MyAzLjgyLDIwIDUsMTIuNzY0IDAsNy42MzkgNi45MSw2LjU4MyAiLz48L3N2Zz4=');
+ background-size: contain;
+}
+.star-rating em {
+ opacity: 0;
+ position: absolute;
+ left: 0;
+ top: 0;
+ height: 100%;
+ /* width: 20%; remove this */
+ z-index: 1;
+ background: url('data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDIwIDIwIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cG9seWdvbiBmaWxsPSIjRkZERjg4IiBwb2ludHM9IjEwLDAgMTMuMDksNi41ODMgMjAsNy42MzkgMTUsMTIuNzY0IDE2LjE4LDIwIDEwLDE2LjU4MyAzLjgyLDIwIDUsMTIuNzY0IDAsNy42MzkgNi45MSw2LjU4MyAiLz48L3N2Zz4=');
+ background-size: contain;
+}
+.star-rating input {
+ -moz-appearance: none;
+ -webkit-appearance: none;
+ opacity: 0;
+ display: inline-block;
+ /* width: 20%; remove this */
+ height: 100%;
+ margin: 0;
+ padding: 0;
+ z-index: 2;
+ position: relative;
+}
+.star-rating input:hover + em,
+.star-rating input:checked + em {
+ opacity: 1;
+}
+.star-rating em ~ em {
+ width: 40%;
+}
+.star-rating em ~ em ~ em {
+ width: 60%;
+}
+.star-rating em ~ em ~ em ~ em {
+ width: 80%;
+}
+.star-rating em ~ em ~ em ~ em ~ em {
+ width: 100%;
+}
+::after,
+::before {
+ height: 100%;
+ padding: 0;
+ margin: 0;
+ box-sizing: border-box;
+ text-align: center;
+ vertical-align: middle;
+}
+
+.star-rating.star-5 {width: 250px;}
+.star-rating.star-5 input,
+.star-rating.star-5 em {width: 20%;}
+.star-rating.star-5 em ~ em {width: 40%;}
+.star-rating.star-5 em ~ em ~ em {width: 60%;}
+.star-rating.star-5 em ~ em ~ em ~ em {width: 80%;}
+.star-rating.star-5 em ~ em ~ em ~ em ~ em {width: 100%;}
+
+.star-rating.star-3 {width: 150px;}
+.star-rating.star-3 input,
+.star-rating.star-3 em {width: 33.33%;}
+.star-rating.star-3 em ~ em {width: 66.66%;}
+.star-rating.star-3 em ~ em ~ em {width: 100%;}
+    </style>
+</head>
+<body>
+<h4>Leave a comment</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <textarea asp-for="Content" cols="50" rows="2" class="form-control"></textarea>
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+             <div class="form-group">
+             <span class="star-rating star-5">                 
+             <input asp-for="Review" type="radio" value="1"><em></em>
+             <input asp-for="Review" type="radio" value="2"><em></em>
+             <input asp-for="Review" type="radio" value="3"><em></em>
+             <input asp-for="Review" type="radio" value="4"><em></em>
+             <input asp-for="Review" type="radio" value="5"><em></em>
+            </span>
+            <br><br>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Post" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="Posts" asp-action="Index">Back to all posts</a>
+</div>
+</body>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

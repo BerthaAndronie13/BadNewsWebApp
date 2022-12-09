@@ -1,0 +1,110 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using BadNews.Models
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Bad News</title>
+    <link rel="stylesheet" href="css/core-style.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" aria-labelledby="mainnavheading">
+            <div class="container">
+            <div class="container h-100">
+                <div class="row h-100 align-items-center">
+                    <div class="col-12">
+                        <div class="main-menu">
+                            <nav class="navbar navbar-expand-lg" aria-labelledby="mainnavheading">
+                                <div class="collapse navbar-collapse" id="gazetteMenu">
+                                    <ul class="navbar-nav mr-auto">
+                                        <li class="nav-item">
+                                             <a asp-controller="Posts" asp-action="Index"><img src="~/images/core-img/logo.png" alt="logo"></a>
+                                        </li>
+                                        <li class="nav-item active" style="padding-top:30px">
+                                            <a class="nav-link" asp-controller="Posts" asp-action="Index" style="color:red"><strong>TODAY</strong> <span class="sr-only">(current)</span></a>
+                                        </li>
+                                        <li class="nav-item" style="padding-top:30px">
+                                            <a class="nav-link" asp-controller="Posts" asp-action="Politics"><strong>POLITICS</strong></a>
+                                        </li>
+                                        <li class="nav-item" style="padding-top:30px">
+                                            <a class="nav-link" asp-controller="Posts" asp-action="Lifestyle"><strong>LIFESTYLE</strong></a>
+                                        </li>
+                                        <li class="nav-item"  style="padding-top:30px">
+                                            <a class="nav-link" asp-controller="Posts" asp-action="Travel"><strong>TRAVEL</strong></a>
+                                        </li>
+                                        <li class="nav-item"  style="padding-top:30px">
+                                            <a class="nav-link" asp-controller="Posts" asp-action="Health"><strong>HEALTH</strong></a>
+                                        </li>
+                                        <li class="nav-item"  style="padding-top:30px">
+                                            <a class="nav-link" asp-controller="Posts" asp-action="Entertainment"><strong>ENTERTAINMENT</strong></a>
+                                        </li>
+                                        <li class="nav-item"  style="padding-top:30px">
+                                            <a class="nav-link" asp-controller="Posts" asp-action="Sport"><strong>SPORT</strong></a>
+                                        </li>
+                                        @if (SignInManager.IsSignedIn(User))
+                                            {
+                                            @if (@UserManager.GetUserName(User).Contains("Admin"))
+                                            {
+                                            <li class="nav-item"  style="padding-top:30px">
+                                                <a asp-controller="Home" asp-action="Admin" class="nav-link"><strong>ADMIN</strong></a>
+                                            </li>                                                
+                                            }
+                                        }
+                                        <ul class="navbar-nav" style="padding-left:100px; padding-top:30px">
+                                            @if (SignInManager.IsSignedIn(User))
+                                            {
+                                                <li class="nav-item">
+                                                    <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><strong>HELLO, @UserManager.GetUserName(User)!</strong></a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                                        <button id="logout" type="submit" class="nav-link btn btn-link text-dark"><strong>LOGOUT</strong></button>
+                                                    </form>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li class="nav-item">
+                                                    <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register"><strong>REGISTER</strong></a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login"><strong>LOGIN</strong></a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+        <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2022 - BadNews - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,213 @@
+﻿@model IEnumerable<BadNews.Models.Post>
+
+@{
+    ViewData["Title"] = "Posts";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title  -->
+    <title>Bad News | Home</title>
+
+    <!-- Favicon  -->
+    <link rel="icon" href="img/core-images/favicon.ico">
+
+    <!-- Core Style CSS -->
+    <link rel="stylesheet" href="css/core-style.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Responsive CSS -->
+    <link href="css/responsive.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <!-- Welcome Blog Slide Area Start -->
+    <section class="welcome-blog-post-slide owl-carousel">
+        <!-- Single Blog Post -->
+        @foreach (var item in Model.OrderBy(i => i.CreatedAt)) {
+        <div class="single-blog-post-slide bg-img background-overlay-5" style="background-image: url(images/@item.ImageCover);">
+            <!-- Single Blog Post Content -->
+            <div class="single-blog-post-content">
+                <div class="tags">
+                    <a asp-action="Details" asp-route-id="@item.PostId">@Html.DisplayFor(modelItem => item.Category.CategoryName)</a>
+                </div>
+                <h3><a asp-action="Details" asp-route-id="@item.PostId" class="font-pt">@Html.DisplayFor(modelItem => item.Title)</a></h3>
+                <div class="date">
+                    <a asp-action="Details" asp-route-id="@item.PostId">@Html.DisplayFor(modelItem => item.CreatedAt)</a>
+                </div>
+            </div>
+        </div>
+        }
+    </section>
+
+    <!-- Welcome Blog Slide Area End -->
+
+    <!-- Main Content Area Start -->
+    <section class="main-content-wrapper section_padding_100">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-9">
+                    @foreach (var item in Model.OrderByDescending(i => i.CreatedAt).Take(1)) {
+                    <div class="gazette-welcome-post">
+                        <!-- Post Tag -->
+                        <div class="gazette-post-tag">
+                            <a asp-action="Details" asp-route-id="@item.PostId">@Html.DisplayFor(modelItem => item.Category.CategoryName)</a>
+                        </div>
+                        <h2 class="font-pt">@Html.DisplayFor(modelItem => item.Title)</h2>
+                        <p class="gazette-post-date">@Html.DisplayFor(modelItem => item.CreatedAt)</p>
+                        <!-- Post Thumbnail -->
+                        <div class="blog-post-thumbnail my-5">
+                            <img src="images/@item.ImageCover" class="img-responsive" style="width:100%" alt="Image">
+                        </div>
+                        <!-- Post Excerpt -->
+                        <p>@Html.DisplayFor(modelItem => item.Introduction)</p>
+                        <!-- Reading More -->
+                        <div class="post-continue-reading-share d-sm-flex align-items-center justify-content-between mt-30">
+                            <div class="post-continue-btn">
+                                <a asp-action="Details" asp-route-id="@item.PostId" class="font-pt">Continue Reading <i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+                            </div>
+                            <div class="post-share-btn-group">
+                                <a href="http://www.pinterest.com"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
+                                <a href="https://linkedin.com"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                                <a href="http://www.facebook.com"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                                <a href="http://www.twitter.com"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                    <div class="gazette-todays-post section_padding_100_50">
+                        <div class="gazette-heading">
+                            <h4>today’s latest news</h4>
+                        </div>
+                        @foreach (var item in Model.OrderByDescending(i => i.CreatedAt).Take(3)) {
+                        <!-- Single Today Post -->
+                        <div class="gazette-single-todays-post d-md-flex align-items-start mb-50">
+                            <div class="todays-post-thumb">
+                                <img src="images/@item.ImageCover" class="img-responsive" style="width:100%" alt="Image">
+                            </div>
+                            <div class="todays-post-content">
+                                <!-- Post Tag -->
+                                <div class="gazette-post-tag">
+                                    <a asp-action="Details" asp-route-id="@item.PostId">@Html.DisplayFor(modelItem => item.Category.CategoryName)</a>
+                                </div>
+                                <h3><a asp-action="Details" asp-route-id="@item.PostId" class="font-pt mb-2">@Html.DisplayFor(modelItem => item.Title)</a></h3>
+                                <span class="gazette-post-date mb-2">@Html.DisplayFor(modelItem => item.CreatedAt)</span>
+                                <p>@Html.DisplayFor(modelItem => item.Quote)</p>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-3 col-md-6">
+                    <div class="sidebar-area">
+                        <!-- Breaking News Widget -->
+                        <div class="breaking-news-widget">
+                            <div class="widget-title">
+                                <h5>breaking news</h5>
+                            </div>
+                            <!-- Single Breaking News Widget -->
+                            @foreach (var item in Model.OrderBy(i => i.PostId).Take(5)) {
+                            <div class="single-breaking-news-widget">
+                                <img src="images/@item.ImageCover" class="img-responsive" style="min-width:100%" alt="Image">
+                                <div class="breakingnews-title">
+                                    <p>breaking news</p>
+                                </div>
+                                <div class="breaking-news-heading gradient-background-overlay">
+                                    <a asp-action="Details" asp-route-id="@item.PostId"><h5 class="font-pt">@Html.DisplayFor(modelItem => item.Title)</h5></a>
+                                </div>
+                            </div>
+                            }
+                        </div>
+
+                        <!-- Don't Miss Widget -->
+                        <div class="donnot-miss-widget">
+                            <div class="widget-title">
+                                <h5>Don't miss</h5>
+                            </div>
+                            <!-- Single Don't Miss Post -->
+                            @foreach (var item in Model.OrderBy(i => i.PostId).Take(5)) {
+                            <div class="single-dont-miss-post d-flex mb-30">
+                                <div class="dont-miss-post-thumb">
+                                    <img src="images/@item.ImageCover" class="img-responsive" alt="Image">
+                                </div>
+                                <div class="dont-miss-post-content">
+                                    <a asp-action="Details" asp-route-id="@item.PostId" class="font-pt">@Html.DisplayFor(modelItem => item.Title)</a>
+                                    <span>@Html.DisplayFor(modelItem => item.CreatedAt)</span>
+                                </div>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Main Content Area End -->
+    </section>
+
+    <footer class="footer-area bg-img background-overlay" style="background-image: url(images/bg-img/4.jpg);">
+        <div class="top-footer-area section_padding_100_70">
+            <div class="container">
+                <div class="row" style="justify-content:center">
+                    <!-- Single Footer Widget -->
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-2">
+                        <div class="single-footer-widget">
+                            <div class="footer-widget-title">
+                                <h4 class="font-pt">CATEGORIES</h4>
+                            </div>
+                            <ul class="footer-widget-menu">
+                                <li><a asp-controller="Posts" asp-action="Politics">Politics</a></li>
+                                <li><a asp-controller="Posts" asp-action="Lifestyle">Lifestyle</a></li>
+                                <li><a asp-controller="Posts" asp-action="Travel">Travel</a></li>
+                                <li><a asp-controller="Posts" asp-action="Entertainment">Entertainment</a></li>
+                                <li><a asp-controller="Posts" asp-action="Sport">Sport</a></li>
+                                <li><a asp-controller="Posts" asp-action="Health">Health</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Single Footer Widget -->
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-2">
+                        <div class="single-footer-widget">
+                            <div class="footer-widget-title">
+                                <h4 class="font-pt">FAQ</h4>
+                            </div>
+                            <ul class="footer-widget-menu">
+                                <li><a asp-controller="Home" asp-action="Privacy">Privacy</a></li>
+                                <li><a href="http://www.facebook.com">Facebook</a></li>
+                                <li><a href="http://www.instagram.com">Instagram</a></li>
+                                <li><a href="http://www.youtube.com">Youtube</a></li>
+                                <li><a href="http://www.linkedin.com">LinkedIn</a></li>
+                                <li><a href="http://www.twitter.com">Twitter</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Editorial Area End -->
+    <!-- jQuery (Necessary for All JavaScript Plugins) -->
+    <script src="js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="js/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- Plugins js -->
+    <script src="js/plugins.js"></script>
+    <!-- Active js -->
+    <script src="js/active.js"></script>
+
+</body>
+
+</html>

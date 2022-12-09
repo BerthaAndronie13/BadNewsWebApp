@@ -1,0 +1,135 @@
+﻿@model PaginatedList<BadNews.Models.Post>
+
+
+@{
+    ViewData["Title"] = "Posts";
+}
+<head>
+        <title>Posts</title>
+
+    <style>
+
+        .dropbtn {
+  background-color:#8B0000;
+  color: white;
+  font-size: 16px;
+  border: none;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 50px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: red;}
+input[type=text] {
+  width: 130px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: white;
+  background-image: url('searchicon.png');
+  background-position: 10px 10px; 
+  background-repeat: no-repeat;
+  padding: 12px 20px 12px 40px;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
+}
+
+input[type=text]:focus {
+  width: 100%;
+}
+    </style>
+
+</head>
+<h1>Manage Posts</h1>
+<p>
+    <a asp-action="Create">Add a new post</a>
+
+<form asp-action="Manage" method="get">
+<input type="text" name="SearchString" placeholder="Search..">
+</form>
+
+<table class="table">
+    <caption>Table Description</caption>
+    <thead>
+        <tr>
+            <th>
+                <p>Title</p>
+            </th>
+            <th>
+                <p>Date</p>
+            </th>
+            <th>
+                <p>
+                <div class="dropdown">
+                  <button class="dropbtn">Sort by</button>
+                  <div class="dropdown-content">
+                     <a asp-action="Manage" asp-route-sortOrder="@ViewData["NameSortParm"]">Title</a>
+                     <a asp-action="Manage" asp-route-sortOrder="@ViewData["DateSortParm"]">Date</a>
+                  </div>
+                </div>
+                </p>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                <a asp-controller="Posts" asp-action="Details" asp-route-id="@item.PostId">
+                    @Html.DisplayFor(modelItem => item.Title)
+                </a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.PostId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.PostId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.PostId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Manage"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="Manage"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>
