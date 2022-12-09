@@ -1,0 +1,2 @@
+# BadNews
+News Portal
