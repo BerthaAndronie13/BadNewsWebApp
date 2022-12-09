@@ -1,1 +1,1 @@
-D:\BadNewsWebApp\BadNewsWebApp\.sonarqube\out\0
+D:\BadNewsWebApp\BadNews\.sonarqube\out\0
